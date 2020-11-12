@@ -1,10 +1,44 @@
 import express from "express"
+import MongoClient from "mongodb"
 const PORT = 3200
 const APP = express()
+const MONGO_URL="mongodb://localhost:27017/"
+const DB_NAME = "express_demo"
+const COLLECTION_NAME="car"
 
-APP.get('/', (req, res) => 
+
+MongoClient.connect(MONGO_URL).then(client => 
 {
-    res.send({mssg: "spongebob is the best cartoon ever"})
-})
+
+    console.log("successfully connected to server")
+    const DB = client.db(DB_NAME)
+    const COLLECTION = DB.collection(COLLECTION_NAME)
+    
+    // set up body parser
+    const BODY_PARSER ={ extended: true } 
+    APP.use(express.json(BODY_PARSER))
+    APP.use(express.urlencoded(BODY_PARSER))
+
+    APP.get('/', (req, res) => 
+    {
+        COLLECTION.find({}).toArray((err, result)=>
+        {
+            if (err) console.log(err)
+            res.send(result)
+        })
+
+    })
+
+    APP.post('/',(req, res) => 
+    {
+        let entry = req.body
+        console.log(entry)
+        COLLECTION.insertOne(entry)
+        .then(() => res.send(entry))
+        .catch(err => console.log(err))
+    })
+
+    
+}).catch((err) => console.log(err));
 
 APP.listen(PORT, () => console.log(`http://localhost:${PORT}`))
