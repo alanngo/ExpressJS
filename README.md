@@ -16,6 +16,7 @@ $ mkdir src
 $ sudo npm init -y
 $ sudo npm install nodemon --save-dev
 $ sudo npm install express --save
+$ sudo npm install cors --save
 $ touch src/index.js
 ```
 
@@ -37,20 +38,23 @@ $ touch src/index.js
     "nodemon": "^2.0.6"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1"
   }
 }
 ```
 
-## Starter Code
+### Starter Code
 
 ```javascript
 import express from "express"
+import cors from "cors"
 const PORT = 3200
 const APP = express()
 
 // set up body parser
-const BODY_PARSER ={ extended: true } 
+const BODY_PARSER ={ extended: true }
+APP.use(cors()) 
 APP.use(express.json(BODY_PARSER))
 APP.use(express.urlencoded(BODY_PARSER))
 
@@ -70,10 +74,11 @@ APP.listen(PORT, () => console.log(`http://localhost:${PORT}`))
 $ sudo npm install mongodb --save
 ```
 
-### Driver Code
+### MongoDB Starter Code
 
 ```javascript
 import express from "express"
+import cors from "cors"
 import MongoClient from "mongodb"
 const PORT = 3200
 const APP = express()
@@ -89,7 +94,8 @@ MongoClient.connect(MONGO_URL).then(client =>
     const COLLECTION = DB.collection(COLLECTION_NAME)
     
     // set up body parser
-    const BODY_PARSER ={ extended: true } 
+    const BODY_PARSER ={ extended: true }
+    APP.use(cors()) 
     APP.use(express.json(BODY_PARSER))
     APP.use(express.urlencoded(BODY_PARSER))
 
