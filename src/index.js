@@ -21,7 +21,8 @@ MongoClient.connect(MONGO_URL).then(client =>
     APP.use(cors()) 
     APP.use(express.json(BODY_PARSER))
     APP.use(express.urlencoded(BODY_PARSER))
-    
+
+
     //use routes from other files
     APP.use('/router',ROUTER)
     
@@ -30,7 +31,7 @@ MongoClient.connect(MONGO_URL).then(client =>
         COLLECTION.find({}).toArray((err, result)=>
         {
             if (err) console.log(err)
-            res.send(result)
+            res.json(result)
         })
 
     })
@@ -40,8 +41,22 @@ MongoClient.connect(MONGO_URL).then(client =>
         let entry = req.body
         console.log(entry)
         COLLECTION.insertOne(entry)
-        .then(() => res.send(entry))
+        .then(() => res.json(entry))
         .catch(err => console.log(err))
+    })
+    
+    // error handler
+    APP.use((err, req, res, next)=>
+    {
+        console.error(err.stack)
+        res.status(500).json
+        (
+            {
+                status: 500,
+                message: err.message,
+                stacktrace: err.stack
+            }
+        )
     })
 
     

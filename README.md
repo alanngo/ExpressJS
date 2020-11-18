@@ -60,7 +60,7 @@ APP.use(express.urlencoded(BODY_PARSER))
 
 APP.get('/', (req, res) => 
 {
-    res.send({mssg: "spongebob is the best cartoon ever"})
+    res.json({mssg: "spongebob is the best cartoon ever"})
 })
 
 APP.listen(PORT, () => console.log(`http://localhost:${PORT}`))
@@ -95,9 +95,11 @@ MongoClient.connect(MONGO_URL).then(client =>
     
     // set up body parser
     const BODY_PARSER ={ extended: true }
-    APP.use(cors()) 
     APP.use(express.json(BODY_PARSER))
     APP.use(express.urlencoded(BODY_PARSER))
+
+    APP.use()
+    APP.use(cors()) 
 
     // routes go here
     
