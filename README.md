@@ -86,19 +86,19 @@ const MONGO_URL="" // insert mongo url here
 const DB_NAME = "" // insert db url here
 const COLLECTION_NAME="" // collection name goes here
 
-
-MongoClient.connect(MONGO_URL).then(client => 
+const OPTIONS =  {useUnifiedTopology: true }
+MongoClient.connect(MONGO_URL, OPTIONS).then(client => 
 {
-    console.log("successfully connected to server")
+    // set up connection
     const DB = client.db(DB_NAME)
     const COLLECTION = DB.collection(COLLECTION_NAME)
+    console.log("successfully connected to server")
     
     // set up body parser
     const BODY_PARSER ={ extended: true }
     APP.use(express.json(BODY_PARSER))
     APP.use(express.urlencoded(BODY_PARSER))
 
-    APP.use()
     APP.use(cors()) 
 
     // routes go here

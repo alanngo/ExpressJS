@@ -9,12 +9,13 @@ const MONGO_URL="mongodb://localhost:27017/"
 const DB_NAME = "express_demo"
 const COLLECTION_NAME="car"
 
-
-MongoClient.connect(MONGO_URL).then(client => 
+const OPTIONS =  {useUnifiedTopology: true }
+MongoClient.connect(MONGO_URL, OPTIONS).then(client => 
 {
-    console.log("successfully connected to MongoDB server")
+    // connect
     const DB = client.db(DB_NAME)
     const COLLECTION = DB.collection(COLLECTION_NAME)
+    console.log("successfully connected to MongoDB server")
     
     // set up body parser
     const BODY_PARSER ={ extended: true }
