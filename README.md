@@ -67,14 +67,14 @@ APP.listen(PORT, () => console.log(`http://localhost:${PORT}`))
 ```
 
 ## MongoDB Integration
-
-### Init
+### MongoDB
+#### Init
 
 ```bash
 $ sudo npm install mongodb --save
 ```
 
-### MongoDB Starter Code
+####  Starter Code
 
 ```javascript
 import express from "express"
@@ -104,6 +104,43 @@ MongoClient.connect(MONGO_URL, OPTIONS).then(client =>
     // routes go here
     
 }).catch((err) => console.log(err));
+
+APP.listen(PORT, () => console.log(`http://localhost:${PORT}`))
+```
+
+### Mongoose
+
+#### Init
+
+```bash
+$ sudo npm install mongoose --save
+```
+
+#### Starter Code
+
+```javascript
+import express from "express"
+import cors from "cors"
+import mongoose from "mongoose"
+const PORT = 3200
+const APP = express()
+const URL = "" // enter URL here
+const COLLECTION_NAME = "" // enter collection name here
+
+// set up body parser
+const BODY_PARSER ={ extended: true }
+APP.use(cors()) 
+APP.use(express.json(BODY_PARSER))
+APP.use(express.urlencoded(BODY_PARSER))
+
+mongoose.connect(URL, OPTIONS, err=>
+{
+    const SCHEMA = mongoose.Schema({any: {}}, {strict: false})
+    const MODEL = mongoose.model(COLLECTION_NAME, SCHEMA)
+    if (err) console.log(err)
+
+    // routes go here
+})
 
 APP.listen(PORT, () => console.log(`http://localhost:${PORT}`))
 ```
